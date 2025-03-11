@@ -1,33 +1,26 @@
 pipeline {
     agent any
-    tools {
-        maven 'Maven-3.9.9' // Use the name defined in Jenkins (case-sensitive)
-    }
+
     stages {
         stage('Build') {
             steps {
-                sh 'mvn clean install'
-                echo 'Build Stage Successful'
+                sh 'g++ -o pes809-1 program.cpp' // Compile the C++ file
             }
         }
+
         stage('Test') {
             steps {
-                sh 'mvn test'
-                echo 'Test Stage Successful'
-            }
-            post {
-                always {
-                    junit 'target/surefire-reports/*.xml'
-                }
+                sh './pes809' // Execute the compiled binary
             }
         }
+
         stage('Deploy') {
             steps {
-                sh 'mvn deploy'
-                echo 'Deployment Successful'
+                echo 'Deployment step (mock for now)'
             }
         }
     }
+
     post {
         failure {
             echo 'Pipeline failed'
