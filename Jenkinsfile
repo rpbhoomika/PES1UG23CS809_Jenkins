@@ -4,13 +4,15 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                sh 'g++ -o pes809-1 program.cpp' // Compile the C++ file
+                sh 'g++ -o pes809 program.cpp || exit 1'
+                sh 'ls -l'  // Check if binary exists
             }
         }
 
         stage('Test') {
             steps {
-                sh './pes809' // Execute the compiled binary
+                sh 'chmod +x pes809'
+                sh './pes809'
             }
         }
 
